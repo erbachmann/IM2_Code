@@ -1,5 +1,8 @@
-const button = document.querySelector('#button');
+const btn_load_recipe = document.querySelector('#btn_load_recipe');
+const btn_like_recipe = document.querySelector('#btn_like_recipe');
 const catecory_selection = document.querySelector('#catecory_kitchen');
+
+let selectedRecipe;
 
 // Kategorien laden
 async function loadCatecory() {
@@ -23,10 +26,9 @@ async function loadCatecory() {
 
 loadCatecory();
 
-// Button klick
-button.addEventListener('click', async function () {
+// Button klick load recipe
+btn_load_recipe.addEventListener('click', async function () {
     let url = '';
-    let selectedRecipe;
 
     if (catecory_selection.value === 'all') {
         url = 'https://www.themealdb.com/api/json/v1/1/random.php';
@@ -49,4 +51,33 @@ button.addEventListener('click', async function () {
         console.error(error);
     }
     console.log(selectedRecipe);
+});
+
+//Button klick like
+btn_like_recipe.addEventListener('click', function () {
+    if (!selectedRecipe) {
+        console.log('Noch kein Rezept geladen');
+        return;
+    }
+
+    const storedRecipes = localStorage.getItem('likedRecipes');
+
+
+    const alreadyExists = storedRecipes.some(recipe => recipe.idMeal === selectedRecipe.idMeal);
+
+    if (alreadyExists) {
+        console.log('Rezept schon gemerkt');
+        return;
+    }
+
+    const recipeToSave = {
+        idMeal: selectedRecipe.idMeal,
+        strMeal: selectedRecipe.strMeal,
+        strMealThumb: selectedRecipe.strMealThumb
+    };
+
+    likedRecipes.push(recipeToSave);
+    localStorage.setItem('likedRecipes', JSON.stringify(likedRecipes));
+
+    console.log(likedRecipes);
 });
