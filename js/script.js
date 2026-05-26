@@ -59,17 +59,17 @@ btn_like_recipe.addEventListener('click', function () {
         console.log('Noch kein Rezept geladen');
         return;
     }
-
+// local storage check for existance of id
     const storedRecipes = localStorage.getItem('likedRecipes');
+    const likedRecipes = storedRecipes ? JSON.parse(storedRecipes) : [];
 
-
-    const alreadyExists = storedRecipes.some(recipe => recipe.idMeal === selectedRecipe.idMeal);
+    const alreadyExists = likedRecipes.some(recipe => recipe.idMeal === selectedRecipe.idMeal);
 
     if (alreadyExists) {
         console.log('Rezept schon gemerkt');
         return;
     }
-
+// save current recipe to local storage
     const recipeToSave = {
         idMeal: selectedRecipe.idMeal,
         strMeal: selectedRecipe.strMeal,
