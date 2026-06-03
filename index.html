@@ -6,29 +6,33 @@
     <title>hungry but lost</title>
     <link rel="stylesheet" href="css/style.css" />
   </head>
-  <!-- Detail Overlay -->
-  <div id="detail_overlay" class="detail_overlay" style="display: none">
-    <div class="detail_content">
-      <div class="detail_top">
-        <div class="detail_top_text">
-          <h2 id="detail_title"></h2>
-          <p id="detail_category"></p>
-          <p id="detail_kitchen"></p>
-          <div class="detail_ingredients">
-            <h3>Grocery list</h3>
-            <ul id="detail_grocery"></ul>
+  <body>
+    <!-- Detail Overlay -->
+    <div id="detail_overlay" class="detail_overlay" style="display: none">
+      <div class="detail_content">
+        <div class="detail_top">
+          <div class="detail_top_text">
+            <h2 id="detail_title"></h2>
+            <p id="detail_category"></p>
+            <p id="detail_kitchen"></p>
+            <div class="detail_ingredients">
+              <h3>Grocery list</h3>
+              <ul id="detail_grocery"></ul>
+            </div>
           </div>
+          <img id="detail_img" src="" alt="" loading="lazy" />
         </div>
-        <img id="detail_img" src="" alt="" loading="lazy" />
-      </div>
-      <div class="detail_instructions">
-        <h3>Recipe</h3>
-        <ol id="detail_steps"></ol>
+        <div class="detail_instructions">
+          <h3>Recipe</h3>
+          <ol id="detail_steps"></ol>
+        </div>
       </div>
     </div>
-  </div>
-  <!--Scrolling Recipe -->
-  <body>
+    <!-- Favorites Overlay -->
+    <div id="fav_overlay" class="fav_overlay" style="display: none">
+      <ul id="fav_list" class="fav_list"></ul>
+    </div>
+    <!--Scrolling Recipe -->
     <header>
       <button class="btn_heart">
         <svg viewBox="0 0 63 55">
