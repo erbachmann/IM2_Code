@@ -105,7 +105,7 @@ function renderFavList() {
         li.innerHTML = `
             <button class="btn_remove" data-id="${recipe.idMeal}">✕</button>
             <img src="${recipe.strMealThumb}" alt="${recipe.strMeal}" loading="lazy" />
-            <h2>${recipe.strMeal}</h2>
+            <h3 class="fav_item_titel">${recipe.strMeal}</h3>
             <button class="btn_details" data-id="${recipe.idMeal}"><h3>Details</h3></button>
         `;
         fav_list.appendChild(li);
@@ -174,22 +174,24 @@ btn_load_recipe.addEventListener('click', async function () {
 btn_like_recipe.addEventListener('click', function () {
     if (!selectedRecipe) return;
 
-    const storedRecipes = localStorage.getItem('likedRecipes');
-    const likedRecipes = storedRecipes ? JSON.parse(storedRecipes) : [];
+    let likedRecipes = JSON.parse(localStorage.getItem('likedRecipes') || '[]');
     const alreadyExists = likedRecipes.some(r => r.idMeal === selectedRecipe.idMeal);
 
     if (alreadyExists) {
+        // Entfernen
+        likedRecipes = likedRecipes.filter(r => r.idMeal !== selectedRecipe.idMeal);
+        btn_like_recipe.classList.remove('liked');
+    } else {
+        // Hinzufügen
+        likedRecipes.push({
+            idMeal: selectedRecipe.idMeal,
+            strMeal: selectedRecipe.strMeal,
+            strMealThumb: selectedRecipe.strMealThumb
+        });
         btn_like_recipe.classList.add('liked');
-        return;
     }
 
-    likedRecipes.push({
-        idMeal: selectedRecipe.idMeal,
-        strMeal: selectedRecipe.strMeal,
-        strMealThumb: selectedRecipe.strMealThumb
-    });
     localStorage.setItem('likedRecipes', JSON.stringify(likedRecipes));
-    btn_like_recipe.classList.add('liked');
 });
 
 // Details Button auf der Card
