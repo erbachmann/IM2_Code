@@ -44,6 +44,7 @@ function renderRecipe(meal) {
 
 // Overlay befüllen und öffnen
 function openDetail(meal) {
+    detail_overlay.scrollTop = 0; // zurück nach oben
     document.querySelector('#detail_title').textContent = meal.strMeal;
     document.querySelector('#detail_category').textContent = `Category: ${meal.strCategory ?? '–'}`;
     document.querySelector('#detail_kitchen').textContent = `Kitchen: ${meal.strArea ?? '–'}`;
@@ -66,7 +67,10 @@ function openDetail(meal) {
     // Kochanleitung in Schritte aufteilen
     const steps = document.querySelector('#detail_steps');
     steps.innerHTML = '';
-    meal.strInstructions.split('\r\n').filter(s => s.trim()).forEach(step => {
+meal.strInstructions
+    .split(/\r\n|\n|\r/)
+    .filter(s => s.trim() && s.trim().length > 10 && !/^(step\s*)?\d+\.?$/i.test(s.trim()))
+    .forEach(step => {
         const li = document.createElement('li');
         li.textContent = step.trim();
         steps.appendChild(li);
