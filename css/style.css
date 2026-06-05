@@ -374,3 +374,265 @@ header {
     font-weight: 900;
     z-index: 12;
 }
+
+/* === Animations === */
+
+/* Overlay scale-in */
+@keyframes overlayIn {
+    from { opacity: 0; transform: scale(0.92); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+.detail_overlay, .fav_overlay {
+    animation: overlayIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* Fav items von oben herab */
+@keyframes itemDrop {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.fav_item {
+    animation: itemDrop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* Stagger über CSS custom property */
+.fav_item:nth-child(1)  { animation-delay: 0.05s; }
+.fav_item:nth-child(2)  { animation-delay: 0.1s; }
+.fav_item:nth-child(3)  { animation-delay: 0.15s; }
+.fav_item:nth-child(4)  { animation-delay: 0.2s; }
+.fav_item:nth-child(5)  { animation-delay: 0.25s; }
+.fav_item:nth-child(6)  { animation-delay: 0.3s; }
+.fav_item:nth-child(7)  { animation-delay: 0.35s; }
+.fav_item:nth-child(8)  { animation-delay: 0.4s; }
+
+/* Hover: alle Buttons */
+.btn_heart, .btn_details, .btn_generate, .btn_remove {
+    transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+
+.btn_heart:hover     { transform: scale(1.1); }
+.btn_details:hover   { transform: scale(1.05) translateY(-2px); filter: brightness(1.15); }
+.btn_generate:hover  { transform: scale(1.04) translateY(-2px); filter: brightness(1.15); }
+.btn_remove:hover    { transform: scale(1.2); }
+
+/* Inspire me — idle wiggle */
+@keyframes idleWiggle {
+    0%, 100% { transform: scale(1.04) translateY(-2px) rotate(0deg); }
+    25%       { transform: scale(1.04) translateY(-2px) rotate(-2deg); }
+    75%       { transform: scale(1.04) translateY(-2px) rotate(2deg); }
+}
+
+@keyframes idlePulse {
+    0%, 100% { transform: scale(1); }
+    50%       { transform: scale(1.05); }
+}
+
+#btn_load_recipe {
+    animation: idlePulse 2.5s ease-in-out 3s infinite;
+}
+
+#btn_load_recipe:hover {
+    animation: none; /* hover übernimmt */
+}
+
+/* Heart like — bounce */
+@keyframes heartBounce {
+    0%   { transform: scale(1); }
+    30%  { transform: scale(1.4); }
+    60%  { transform: scale(0.9); }
+    100% { transform: scale(1); }
+}
+
+.btn_heart.heart-pop svg {
+    animation: heartBounce 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation: none !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Karte startet unten */
+@keyframes cardSlideIn {
+    from { transform: translateY(120%); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* Karte verlässt nach oben */
+@keyframes cardSlideOut {
+    from { transform: translateY(0);     opacity: 1; }
+    to   { transform: translateY(-120%); opacity: 0; }
+}
+
+.recipe.slide-in {
+    animation: cardSlideIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.recipe.slide-out {
+    animation: cardSlideOut 0.35s cubic-bezier(0.55, 0, 1, 0.45) both;
+    pointer-events: none;
+}
+
+@keyframes favItemOut {
+    from { opacity: 1; transform: translateX(0); max-height: 100px; }
+    to   { opacity: 0; transform: translateX(30px); max-height: 0; }
+}
+
+.fav_item.removing {
+    animation: favItemOut 0.3s ease both;
+    overflow: hidden;
+}
+
+/* ============================================
+   MOBILE — max-width: 768px
+   ============================================ */
+@media (max-width: 768px) {
+
+  /* Header: gelber Streifen oben */
+  header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 100;
+    background-color: var(--c-accent-1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+  }
+
+  /* "hungry but lost" Text im Header einblenden via pseudo-element */
+  header::before {
+    content: 'hungry but lost';
+    font-family: "Bagel Fat One", system-ui;
+    font-size: 1.75rem;
+    color: var(--c-text-1);
+    font-weight: 400;
+  }
+
+  /* Heart-Button im Header kleiner */
+  header .btn_heart {
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+  }
+
+  /* Main: 1 Spalte, kein festes height */
+  main {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem;
+    gap: 1.5rem;
+    height: calc(100vh - 64px);
+    flex-direction: column-reverse;
+  }
+
+  /* Linke Spalte: Logo-Bild ausblenden, Controls zentriert */
+  .main_left {
+    display: contents; /* Layout-Wrapper auflösen */
+  }
+
+  .main_left > img {
+    display: none; /* Teller-Logo auf Mobile ausblenden */
+  }
+
+  .main_controls {
+    position: relative;
+    width: 100%;
+    left: 0;
+    top: 0;
+    flex-direction: column-reverse;
+    gap: 0.5rem;
+  }
+
+  /* "inspire me" Button: volle Breite, gross */
+  .btn_generate {
+    width: 100%;
+    border-radius: 1.5rem;
+    padding: 1.5rem 1.5rem;
+    text-align: center;
+  }
+
+  .btn_generate h1 {
+    font-size: 2.5rem;
+    margin: 0;
+  }
+
+  /* Dropdown: volle Breite */
+  .main_controls .dropdown {
+    align-self: stretch;
+    width: 100%;
+    padding: 0.4rem 0.75rem;
+    font-size: 1rem;
+  }
+
+  /* Rechte Spalte: Card zentriert, volle Breite */
+  .main_right {
+height: 100%;
+  }
+
+  /* Recipe Card: volle Breite */
+  .recipe {
+    width: 100%;
+    height: 100%;           /* füllt den gesamten main_right Platz */
+    border-radius: 2.5rem;
+    padding: 1.5rem;
+    overflow-y: auto;       /* falls Inhalt zu lang: innerhalb der Card scrollen */
+    box-sizing: border-box;
+  }
+  .recipe_image-wrapper {
+    flex-shrink: 0;
+    padding-bottom: 0.5rem;
+  }
+
+  .recipe_image-wrapper img {
+    width: 60%;             /* auf Mobile kleiner damit Text Platz hat */
+    margin: 0 auto;
+  }
+    #recipe_title{
+    padding-bottom: 0.5rem;
+  }
+
+  /* Actions: kein negativer Offset auf Mobile */
+  .recipe_actions {
+    left: 0;
+    justify-content: center;
+    gap: 1rem;
+    padding-top: 1rem;
+    top: 0;
+  }
+
+  /* Favorites Overlay: volle Breite */
+  .fav_overlay {
+    inset: 1rem;
+    left: 1rem; /* überschreibt desktop left: 50% */
+    border-radius: 2rem;
+  }
+
+  /* Detail Overlay: kleineres Padding */
+  .detail_overlay {
+    padding: 1.5rem;
+  }
+
+  /* Detail: Bild unter den Text */
+  .detail_top {
+    flex-direction: column;
+  }
+
+  .detail_top img {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* H1 Grösse anpassen */
+  h1 {
+    font-size: 2.5rem;
+  }
+}

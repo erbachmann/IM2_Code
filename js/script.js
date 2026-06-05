@@ -28,20 +28,36 @@ async function loadCatecory() {
 
 loadCatecory();
 
-// Card befüllen
 function renderRecipe(meal) {
+    // Wenn Karte schon sichtbar: rauswischen, dann neu laden
+    if (recipe_card.style.display === 'block') {
+        recipe_card.classList.remove('slide-in');
+        recipe_card.classList.add('slide-out');
+
+        recipe_card.addEventListener('animationend', () => {
+            loadNewCard(meal);
+        }, { once: true });
+    } else {
+        loadNewCard(meal);
+    }
+}
+
+function loadNewCard(meal) {
     document.querySelector('#recipe_img').src = meal.strMealThumb;
     document.querySelector('#recipe_img').alt = meal.strMeal;
     document.querySelector('#recipe_title').textContent = meal.strMeal;
     document.querySelector('#recipe_category').textContent = `Category: ${meal.strCategory ?? '–'}`;
     document.querySelector('#recipe_kitchen').textContent = `Kitchen: ${meal.strArea ?? '–'}`;
 
-    const storedRecipes = localStorage.getItem('likedRecipes');
-    const likedRecipes = storedRecipes ? JSON.parse(storedRecipes) : [];
-    const alreadyLiked = likedRecipes.some(r => r.idMeal === meal.idMeal);
-    btn_like_recipe.classList.toggle('liked', alreadyLiked);
+    const likedRecipes = JSON.parse(localStorage.getItem('likedRecipes') || '[]');
+    btn_like_recipe.classList.toggle('liked', likedRecipes.some(r => r.idMeal === meal.idMeal));
 
+    recipe_card.classList.remove('slide-out');
+    void recipe_card.offsetWidth;
     recipe_card.style.display = 'block';
+    recipe_card.classList.add('slide-in');
+
+    btn_load_recipe.classList.add('recipe-loaded');
 }
 
 // Detail Overlay öffnen
@@ -112,14 +128,19 @@ function renderFavList() {
     });
 
     // Remove buttons
-    fav_list.querySelectorAll('.btn_remove').forEach(btn => {
-        btn.addEventListener('click', () => {
+fav_list.querySelectorAll('.btn_remove').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const li = btn.closest('.fav_item');
+        li.classList.add('removing');
+
+        li.addEventListener('animationend', () => {
             let liked = JSON.parse(localStorage.getItem('likedRecipes') || '[]');
             liked = liked.filter(r => r.idMeal !== btn.dataset.id);
             localStorage.setItem('likedRecipes', JSON.stringify(liked));
-            renderFavList();
-        });
+            li.remove(); // nur dieses Element entfernen, kein re-render
+        }, { once: true });
     });
+});
 
     // Details buttons in Favoritenliste
     fav_list.querySelectorAll('.btn_details').forEach(btn => {
@@ -170,19 +191,22 @@ btn_load_recipe.addEventListener('click', async function () {
     renderRecipe(selectedRecipe);
 });
 
-// Like Button
+// Like Button — heart-pop Klasse
 btn_like_recipe.addEventListener('click', function () {
     if (!selectedRecipe) return;
+
+    // Animation triggern
+    btn_like_recipe.classList.remove('heart-pop');
+    void btn_like_recipe.offsetWidth; // reflow erzwingen
+    btn_like_recipe.classList.add('heart-pop');
 
     let likedRecipes = JSON.parse(localStorage.getItem('likedRecipes') || '[]');
     const alreadyExists = likedRecipes.some(r => r.idMeal === selectedRecipe.idMeal);
 
     if (alreadyExists) {
-        // Entfernen
         likedRecipes = likedRecipes.filter(r => r.idMeal !== selectedRecipe.idMeal);
         btn_like_recipe.classList.remove('liked');
     } else {
-        // Hinzufügen
         likedRecipes.push({
             idMeal: selectedRecipe.idMeal,
             strMeal: selectedRecipe.strMeal,
