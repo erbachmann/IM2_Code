@@ -15,7 +15,8 @@ h1 {
     font-weight: 400;
     font-style: normal;
     font-size: 3rem;
-    margin: -15px 0px 0px 0px;
+    line-height: 1;
+    padding-bottom: 0.2em;
 }
 
 h2 {
@@ -56,7 +57,6 @@ p,
 body {
     background-color: var(--c-accent-3);
     height: 100vh;
-    overflow: hidden;
 }
 
 main {
@@ -93,7 +93,6 @@ main {
     top: -20%;
     left: 2rem;
     gap: 0.5rem;
-    padding-bottom: 2rem;
 }
 
 .main_controls .dropdown {
@@ -115,6 +114,10 @@ header {
     z-index: 100;
 }
 
+.mobile_logo {
+    display: none;
+}
+
 /* === Buttons === */
 .btn_heart {
     width: 80px;
@@ -129,8 +132,7 @@ header {
 }
 
 .btn_heart svg {
-    width: 50px;
-    height: 45px;
+    width: 62%;
     fill: none;
     stroke: var(--c-accent-1);
     stroke-width: 6px;
@@ -224,7 +226,7 @@ header {
     background-color: var(--c-text-1);
     z-index: 20;
     overflow-y: auto;
-    padding: 3rem;
+    padding: 4rem;
 }
 
 .detail_content {
@@ -251,7 +253,7 @@ header {
 .detail_instructions {
     display: flex;
     flex-direction: column;
-    padding-top: 3rem;
+    padding-top: 2rem;
 }
 
 .detail_overlay h3,
@@ -267,7 +269,10 @@ header {
 }
 
 .detail_ingredients{
-    padding-top: 3rem;
+    padding-top: 2rem;
+}
+.detail_ingredients_mobile{
+    display: none;
 }
 
 
@@ -495,12 +500,12 @@ header {
 
   /* Header: gelber Streifen oben */
   header {
-    position: sticky;
+    position: static;
     top: 0;
     left: 0;
     right: 0;
     width: 100%;
-    z-index: 100;
+    z-index: unset;
     background-color: var(--c-accent-1);
     display: flex;
     align-items: center;
@@ -508,20 +513,22 @@ header {
     padding: 1rem 1.25rem;
   }
 
-  /* "hungry but lost" Text im Header einblenden via pseudo-element */
-  header::before {
-    content: 'hungry but lost';
-    font-family: "Bagel Fat One", system-ui;
-    font-size: 1.75rem;
-    color: var(--c-text-1);
-    font-weight: 400;
+
+header::before {
+    content: none; /* pseudo-element deaktivieren */
   }
 
+.mobile_logo {
+    display: block;
+    font-size: 2rem;
+    color: var(--c-text-1);
+     }
   /* Heart-Button im Header kleiner */
   header .btn_heart {
     width: 64px;
     height: 64px;
     flex-shrink: 0;
+    z-index: 25;
   }
 
   /* Main: 1 Spalte, kein festes height */
@@ -530,7 +537,7 @@ header {
     align-items: center;
     padding: 1.5rem;
     gap: 1.5rem;
-    height: calc(100vh - 64px);
+    height: calc(100dvh - 96px);
     flex-direction: column-reverse;
   }
 
@@ -556,13 +563,11 @@ header {
   .btn_generate {
     width: 100%;
     border-radius: 1.5rem;
-    padding: 1.5rem 1.5rem;
     text-align: center;
   }
 
   .btn_generate h1 {
-    font-size: 2.5rem;
-    margin: 0;
+    font-size: 4rem;
   }
 
   /* Dropdown: volle Breite */
@@ -575,7 +580,7 @@ header {
 
   /* Rechte Spalte: Card zentriert, volle Breite */
   .main_right {
-height: 100%;
+ height: auto;
   }
 
   /* Recipe Card: volle Breite */
@@ -588,7 +593,6 @@ height: 100%;
     box-sizing: border-box;
   }
   .recipe_image-wrapper {
-    flex-shrink: 0;
     padding-bottom: 0.5rem;
   }
 
@@ -609,6 +613,10 @@ height: 100%;
     top: 0;
   }
 
+  .btn_details{
+    border-radius: 52px;
+  }
+
   /* Favorites Overlay: volle Breite */
   .fav_overlay {
     inset: 1rem;
@@ -624,15 +632,27 @@ height: 100%;
   /* Detail: Bild unter den Text */
   .detail_top {
     flex-direction: column;
+    margin-top: 2.5rem;
+  }
+  .detail_top_text{
+    display: flex;
+    flex-direction: column;
   }
 
   .detail_top img {
     width: 100%;
     max-width: 100%;
   }
-
-  /* H1 Grösse anpassen */
-  h1 {
-    font-size: 2.5rem;
-  }
+.detail_ingredients{
+    display: none;
+}
+.detail_ingredients_mobile{
+    display: block;
+}
+#detail_grocery_mobile {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
 }

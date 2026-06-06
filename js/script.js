@@ -71,18 +71,26 @@ function openDetail(meal) {
     document.querySelector('#detail_img').src = meal.strMealThumb;
     document.querySelector('#detail_img').alt = meal.strMeal;
 
-    // Grocery list
-    const grocery = document.querySelector('#detail_grocery');
-    grocery.innerHTML = '';
-    for (let i = 1; i <= 20; i++) {
-        const ingredient = meal[`strIngredient${i}`];
-        const measure = meal[`strMeasure${i}`];
-        if (ingredient && ingredient.trim()) {
-            const li = document.createElement('li');
-            li.textContent = `${measure?.trim()} ${ingredient.trim()}`.trim();
-            grocery.appendChild(li);
-        }
+ const grocery = document.querySelector('#detail_grocery');
+const groceryMobile = document.querySelector('#detail_grocery_mobile');
+grocery.innerHTML = '';
+groceryMobile.innerHTML = '';
+
+for (let i = 1; i <= 20; i++) {
+    const ingredient = meal[`strIngredient${i}`];
+    const measure = meal[`strMeasure${i}`];
+    if (ingredient && ingredient.trim()) {
+        const text = `${measure?.trim()} ${ingredient.trim()}`.trim();
+        
+        const li = document.createElement('li');
+        li.textContent = text;
+        grocery.appendChild(li);
+
+        const liMobile = document.createElement('li');
+        liMobile.textContent = text;
+        groceryMobile.appendChild(liMobile);
     }
+}
 
     // Instructions
     const steps = document.querySelector('#detail_steps');
