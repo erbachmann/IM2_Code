@@ -126,12 +126,21 @@ function renderFavList() {
     likedRecipes.forEach(recipe => {
         const li = document.createElement('li');
         li.className = 'fav_item';
-        li.innerHTML = `
-            <button class="btn_remove" data-id="${recipe.idMeal}">✕</button>
-            <img src="${recipe.strMealThumb}" alt="${recipe.strMeal}" loading="lazy" />
-            <h3 class="fav_item_titel">${recipe.strMeal}</h3>
-            <button class="btn_details" data-id="${recipe.idMeal}"><h3>Details</h3></button>
-        `;
+li.innerHTML = `
+    <button class="btn_heart is_close btn_remove" data-id="${recipe.idMeal}">
+        <svg class="icon_heart" viewBox="0 0 63 55">
+            <svg class="icon_heart" viewBox="0 0 63 55">
+    <path d="M54.9476 7.07267C53.5645 5.68892 51.9223 4.59124 50.1149 3.84232C48.3074 3.09341 46.3701 2.70794 44.4137 2.70794C42.4572 2.70794 40.5199 3.09341 38.7125 3.84232C36.9051 4.59124 35.2629 5.68892 33.8798 7.07267L31.0094 9.94309L28.139 7.07267C25.3452 4.27891 21.556 2.70939 17.6051 2.70939C13.6541 2.70939 9.86493 4.27891 7.07117 7.07267C4.27741 9.86643 2.70789 13.6556 2.70789 17.6066C2.70789 21.5575 4.27741 25.3467 7.07117 28.1405L9.94158 31.0109L31.0094 52.0787L52.0772 31.0109L54.9476 28.1405C56.3313 26.7574 57.429 25.1152 58.1779 23.3077C58.9268 21.5003 59.3123 19.563 59.3123 17.6066C59.3123 15.6501 58.9268 13.7128 58.1779 11.9054C57.429 10.0979 56.3313 8.45577 54.9476 7.07267Z"/>
+</svg>
+        </svg>
+        <svg class="icon_close" viewBox="0 0 24 24">
+            <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+    </button>
+    <img src="${recipe.strMealThumb}" alt="${recipe.strMeal}" loading="lazy" />
+    <h3 class="fav_item_titel">${recipe.strMeal}</h3>
+    <button class="btn_details" data-id="${recipe.idMeal}"><h3>Details</h3></button>
+`;
         fav_list.appendChild(li);
     });
 
