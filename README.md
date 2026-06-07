@@ -2,8 +2,8 @@
 
 Eine Recipe-Discovery-Web-App, die zufällige Rezeptvorschläge liefert – gefiltert nach Kategorie, speicherbar als Favoriten und mit detaillierter Rezeptansicht.
 
-**Stack:** HTML · CSS (3 Dateien) · Vanilla JS (ES Module)  
-**API:** [TheMealDB](https://www.themealdb.com/api.php) (kostenlos, kein API-Key nötig)
+**Stack:** HTML · CSS (3 Dateien) · JS 
+**API:** [TheMealDB](https://www.themealdb.com/api.php)
 
 ---
 
