@@ -367,8 +367,8 @@ stroke: var(--c-accent-1);
 .btn_heart.is_close .icon_close { display: block; }
 .btn_heart.is_close .icon_close {
     stroke: var(--c-accent-2);
-    width: 45px;
-    height: 45px;
+    width: 90%;
+    height: auto;
 }
 
 /* === Favorites Overlay === */

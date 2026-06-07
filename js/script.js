@@ -239,3 +239,31 @@ btn_like_recipe.addEventListener('click', function () {
 document.querySelector('.btn_details').addEventListener('click', () => {
     if (selectedRecipe) openDetail(selectedRecipe);
 });
+// Klick neben fav_overlay schliesst es
+document.addEventListener('click', (e) => {
+    if (fav_overlay.style.display === 'block' &&
+        !fav_overlay.contains(e.target) &&
+        !btn_header_heart.contains(e.target)) {
+        fav_overlay.style.display = 'none';
+    }
+});
+
+// Tastatur-Shortcuts
+document.addEventListener('keydown', (e) => {
+    // ESC: Overlays schliessen
+    if (e.key === 'Escape') {
+        if (detail_overlay.style.display === 'block') {
+            closeDetail();
+        } else if (fav_overlay.style.display === 'block') {
+            fav_overlay.style.display = 'none';
+        }
+    }
+
+    // Leertaste: neues Rezept laden
+    if (e.key === ' ' && 
+        detail_overlay.style.display !== 'block' &&
+        fav_overlay.style.display !== 'block') {
+        e.preventDefault(); // verhindert Seiten-Scroll
+        btn_load_recipe.click();
+    }
+});
