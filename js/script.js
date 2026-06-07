@@ -139,7 +139,7 @@ li.innerHTML = `
     </button>
     <img src="${recipe.strMealThumb}" alt="${recipe.strMeal}" loading="lazy" />
     <h3 class="fav_item_titel">${recipe.strMeal}</h3>
-    <button class="btn_details" data-id="${recipe.idMeal}"><h3>Details</h3></button>
+    <button class="btn_details" data-id="${recipe.idMeal}"><span>Details</span></button>
 `;
         fav_list.appendChild(li);
     });
